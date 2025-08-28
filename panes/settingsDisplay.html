@@ -51,10 +51,6 @@
 		<th><span class='translate'>Extended Features:</span></th>
 		<td><label><input type='checkbox' class='vboxCheckbox' name='vboxSettingsDisplay3d' /> <span class='translate'>Enable 3D Acceleration</span></label></td>
 	</tr>
-	<tr>
-		<th></th>
-		<td><label><input type='checkbox' class='vboxCheckbox' name='vboxSettingsDisplay2d' /> <span class='translate'>Enable 2D Video Acceleration</span></label></td>
-	</tr>
 </table>
 </div>
 
@@ -120,8 +116,7 @@ $('#vboxSettingsDialog').on('dataLoaded', function(){
 	$(document.forms['frmVboxSettings'].vboxSettingsGraphicsController).val($('#vboxSettingsDialog').data('vboxMachineData').graphicsControllerType);
 	
 	document.forms['frmVboxSettings'].vboxSettingsDisplay3d.checked = ($('#vboxSettingsDialog').data('vboxMachineData').accelerate3DEnabled);
-	document.forms['frmVboxSettings'].vboxSettingsDisplay2d.checked = ($('#vboxSettingsDialog').data('vboxMachineData').accelerate2DVideoEnabled);
-	
+
 	var p = $('#vboxSettingsTabDisplayVideo').parent().children('div'); 
 	if(!$('#vboxSettingsDialog').data('vboxFullEdit')) {
 		$(p).find('tr:not(.vboxRunningEnabled)').find('span').addClass('disabled');
@@ -192,7 +187,6 @@ $('#vboxSettingsDialog').on('save',function(){
 	$('#vboxSettingsDialog').data('vboxMachineData').graphicsControllerType = $(document.forms['frmVboxSettings'].vboxSettingsGraphicsController).val();
 
 	$('#vboxSettingsDialog').data('vboxMachineData').accelerate3DEnabled = document.forms['frmVboxSettings'].vboxSettingsDisplay3d.checked;
-	$('#vboxSettingsDialog').data('vboxMachineData').accelerate2DVideoEnabled = document.forms['frmVboxSettings'].vboxSettingsDisplay2d.checked;
 
 	if($('#vboxSettingsDialog').data('vboxMachineData').VRDEServer && $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.VRDEExtPack) {
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.ports = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEPort.value;

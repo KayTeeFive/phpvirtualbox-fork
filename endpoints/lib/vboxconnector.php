@@ -1961,7 +1961,6 @@ class vboxconnector {
 		$m->GraphicsAdapter->graphicsControllerType = $args['graphicsControllerType'];
 
 		// Video
-		$m->GraphicsAdapter->setFeature("Acceleration2DVideo", $args['accelerate2DVideoEnabled']);
 		$m->GraphicsAdapter->setFeature("Acceleration3D", $args['accelerate3DEnabled']);
 
 		// VRDE settings
@@ -4278,7 +4277,6 @@ class vboxconnector {
 			'graphicsControllerType' => (string)$m->GraphicsAdapter->graphicsControllerType,
 			'pointingHIDType' => (string)$m->pointingHIDType,
 			'keyboardHIDType' => (string)$m->keyboardHIDType,
-			'accelerate2DVideoEnabled' => $m->GraphicsAdapter->isFeatureEnabled("Acceleration2DVideo"),
 			'accelerate3DEnabled' => $m->GraphicsAdapter->isFeatureEnabled("Acceleration3D"),
 			'BIOSSettings' => array(
 				'ACPIEnabled' => $m->FirmwareSettings->ACPIEnabled,
