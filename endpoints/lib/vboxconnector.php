@@ -1937,12 +1937,13 @@ class vboxconnector {
  			* Enables the page sharing code.
 			* @remarks This must match GMMR0Init; currently we only support page fusion on
 			 *          all 64-bit hosts except Mac OS X */
-
+			/* Page Fusion does not work properly in VirtualBox 7.2
+			 * returns "Page fusion is only supported on 64-bit hosts"
 			if($this->vbox->host->getProcessorFeature('LongMode')) {
 
 				$m->pageFusionEnabled = $args['pageFusionEnabled'];
 			}
-
+			*/
 			$m->Platform->X86->HPETEnabled = $args['HPETEnabled'];
 			$m->setExtraData("VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled", $args['disableHostTimeSync']);
 			$m->keyboardHIDType = $args['keyboardHIDType'];
@@ -4294,7 +4295,8 @@ class vboxconnector {
 			'snapshotFolder' => $m->snapshotFolder,
 			'ClipboardMode' => (string)$m->ClipboardMode,
 			'monitorCount' => $m->GraphicsAdapter->monitorCount,
-			'pageFusionEnabled' => $m->pageFusionEnabled,
+			// Page Fusion does not work properly in 7.2
+			//'pageFusionEnabled' => $m->pageFusionEnabled,
 			'VRDEServer' => (!$m->VRDEServer ? null : array(
 				'enabled' => $m->VRDEServer->enabled,
 				'ports' => $m->VRDEServer->getVRDEProperty('TCP/Ports'),
