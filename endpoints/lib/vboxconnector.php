@@ -1875,8 +1875,8 @@ class vboxconnector {
 			$m->Platform->X86->setCPUProperty('LongMode', ($guestOS->is64Bit ? 1 : 0));
 		}
 
-		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		$oldFirmware = (string)$m->FirmwareSettings->firmwareType;
+		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		$oldSecureBoot = ($oldFirmware != 'BIOS' && $m->nonVolatileStore->uefiVariableStore != null ? $m->nonVolatileStore->uefiVariableStore->secureBootEnabled : false);
 		*/
 	
@@ -1891,12 +1891,12 @@ class vboxconnector {
 		$m->Platform->X86->setCPUProperty('LongMode', (strpos($args['OSTypeId'],'_64') > - 1 ? 1 : 0));
 		$m->trustedPlatformModule->type = $args['trustedPlatformModule']['type'];
 
-		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		if($oldFirmware == 'BIOS' && $args['firmwareType'] == 'EFI') {
 			$m->nonVolatileStore->initUefiVariableStore(0);
 			$m->nonVolatileStore->uefiVariableStore->enrollOraclePlatformKey();
 			$m->nonVolatileStore->uefiVariableStore->enrollDefaultMsSignatures();
 		}
+		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		if($args['firmwareType'] != 'BIOS' && $oldSecureBoot != (bool)$args['secureBootEnabled']) {
 			$m->nonVolatileStore->uefiVariableStore->secureBootEnabled = (bool)$args['secureBootEnabled'];
 		}
