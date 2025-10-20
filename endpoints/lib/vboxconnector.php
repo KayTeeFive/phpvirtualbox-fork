@@ -500,6 +500,7 @@ class vboxconnector {
 								'enabled' => $vrde->enabled,
 								'ports' => $vrde->getVRDEProperty('TCP/Ports'),
 								'netAddress' => $vrde->getVRDEProperty('TCP/Address'),
+								'SecurityMethod' => $vrde->getVRDEProperty('Security/Method'),
 								'VNCPassword' => $vrde->getVRDEProperty('VNCPassword'),
 								'authType' => (string)$vrde->authType,
 								'authTimeout' => $vrde->authTimeout
@@ -1971,6 +1972,7 @@ class vboxconnector {
 				$m->VRDEServer->setVRDEProperty('TCP/Ports',$args['VRDEServer']['ports']);
 				if(@$this->settings->enableAdvancedConfig)
 					$m->VRDEServer->setVRDEProperty('TCP/Address',$args['VRDEServer']['netAddress']);
+				$m->VRDEServer->setVRDEProperty('Security/Method',$args['VRDEServer']['SecurityMethod']);
 				$m->VRDEServer->setVRDEProperty('VNCPassword',$args['VRDEServer']['VNCPassword'] ? $args['VRDEServer']['VNCPassword'] : null);
 				$m->VRDEServer->authType = ($args['VRDEServer']['authType'] ? $args['VRDEServer']['authType'] : 'Null');
 				$m->VRDEServer->authTimeout = $args['VRDEServer']['authTimeout'];
@@ -3714,6 +3716,7 @@ class vboxconnector {
 					'enabled' => $vrde->enabled,
 					'ports' => $vrde->getVRDEProperty('TCP/Ports'),
 					'netAddress' => $vrde->getVRDEProperty('TCP/Address'),
+					'SecurityMethod' => $vrde->getVRDEProperty('Security/Method'),
 					'VNCPassword' => $vrde->getVRDEProperty('VNCPassword'),
 					'authType' => (string)$vrde->authType,
 					'authTimeout' => $vrde->authTimeout,
@@ -4301,6 +4304,7 @@ class vboxconnector {
 				'enabled' => $m->VRDEServer->enabled,
 				'ports' => $m->VRDEServer->getVRDEProperty('TCP/Ports'),
 				'netAddress' => $m->VRDEServer->getVRDEProperty('TCP/Address'),
+				'SecurityMethod' => $m->VRDEServer->getVRDEProperty('Security/Method'),
 				'VNCPassword' => $m->VRDEServer->getVRDEProperty('VNCPassword'),
 				'authType' => (string)$m->VRDEServer->authType,
 				'authTimeout' => $m->VRDEServer->authTimeout,
