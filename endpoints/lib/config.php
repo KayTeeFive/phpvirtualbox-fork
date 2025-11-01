@@ -64,12 +64,6 @@ class phpVBoxConfigClass {
 	var $browserLocal = false;
 
 	/**
-	 * List of console resolutions available on console tab
-	 * @var array
-	 */
-	var $consoleResolutions = array('640x480','800x600','1024x768','1280x720','1440x900');
-
-	/**
 	 * Maximum number of NICs displayed per VM
 	 * @var integer
 	 */
@@ -160,7 +154,6 @@ class phpVBoxConfigClass {
 			foreach(get_object_vars($c) as $k => $v) {
 				// Safety checks
 				if($k == 'browserRestrictFiles' && !is_array($v)) continue;
-				if($k == 'consoleResolutions' && !is_array($v)) continue;
 				if($k == 'browserRestrictFolders' && !is_array($v)) continue;
 				$this->$k = $v;
 			}
@@ -203,10 +196,6 @@ class phpVBoxConfigClass {
 		// Key used to uniquely identify this server in this
 		// phpvirtualbox installation
 		$this->setKey();
-
-		// legacy rdpHost setting
-		if(!empty($this->rdpHost) && empty($this->consoleHost))
-			$this->consoleHost = $this->rdpHost;
 
 		// Ensure authlib is set
 		if(empty($this->authLib)) $this->authLib = 'Builtin';
