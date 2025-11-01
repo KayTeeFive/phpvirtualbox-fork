@@ -30,7 +30,7 @@
 			<tr class='vboxRunningEnabled'>
 				<td id='vboxSettingsUSBFilters' style='width: 100%;' class='vboxBordered vboxEnablerListen'>
                     <!-- Hidden div for context menu -->
-                    <div id='vboxSettingsUSBAddDeviceClick' style='display: none' />
+					<div id='vboxSettingsUSBAddDeviceClick' style='display: none'></div>
 					<ul id='vboxSettingsUSBFilterList' class='vboxList vboxHover' style='width: 100%'>
 						<li class='vboxListItem'><input type='checkbox' class='vboxCheckbox' />a</li>
 					</ul>
@@ -150,8 +150,8 @@
 
           	for(var i = 0; i < vboxSettingsUSBFilterProps.length; i++) {
               	
-          		var val = (filter[vboxSettingsUSBFilterProps[i][1]]||'');
-          		$('<tr />').append($('<th />').attr({'style':'white-space: nowrap; width: auto; text-align: right;'}).html(trans(vboxSettingsUSBFilterProps[i][0]+':','UIMachineSettingsUSBFilterDetails'))).append($('<td />').attr({'style':'width: 100%'}).html('<input type="text" class="vboxText" style="width: 100%" id="vboxSettingsUSBF'+vboxSettingsUSBFilterProps[i][1]+'" value="'+$('<div />').text((filter[vboxSettingsUSBFilterProps[i][1]]||'')).html()+'"/>')).appendTo(tbl);
+          		var escaped_val = $('<div />').text((filter[vboxSettingsUSBFilterProps[i][1]]||'')).html();
+          		$('<tr />').append($('<th />').attr({'style':'white-space: nowrap; width: auto; text-align: right;'}).html(trans(vboxSettingsUSBFilterProps[i][0]+':','UIMachineSettingsUSBFilterDetails'))).append($('<td />').attr({'style':'width: 100%'}).html('<input type="text" class="vboxText" style="width: 100%" id="vboxSettingsUSBF'+vboxSettingsUSBFilterProps[i][1]+'" value="'+escaped_val+'"/>')).appendTo(tbl);
           	}
           	
           	// Generate select box
