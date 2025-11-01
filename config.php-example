@@ -56,9 +56,6 @@ var $servers = array(
 // Disable authentication
 #var $noAuth = true;
 
-// Host / ip to use for console connections
-#var $consoleHost = '192.168.1.40';
-
 // Disable "preview" box
 #var $noPreview = true;
 
@@ -160,13 +157,6 @@ var $hostMemInfoRefreshInterval = 5;
 
 /* Disable any of phpVirtualBox's main tabs */
 #var $disableTabVMSnapshots = true; // Snapshots tab
-#var $disableTabVMConsole = true; // Console tab
-
-/* Screen resolutions for console tab */
-var $consoleResolutions = array('640x480','800x600','1024x768','1280x720','1440x900');
-
-/* Console tab keyboard layout. Currently Oracle's RDP client only supports EN and DE. */
-var $consoleKeyboardLayout = 'EN';
 
 /* Max number of network cards per VM. Do not set above VirtualBox's limit (typically 8) or below 1 */
 var $nicMax = 4;

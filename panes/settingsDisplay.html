@@ -51,10 +51,6 @@
 		<th><span class='translate'>Extended Features:</span></th>
 		<td><label><input type='checkbox' class='vboxCheckbox' name='vboxSettingsDisplay3d' /> <span class='translate'>Enable 3D Acceleration</span></label></td>
 	</tr>
-	<tr>
-		<th></th>
-		<td><label><input type='checkbox' class='vboxCheckbox' name='vboxSettingsDisplay2d' /> <span class='translate'>Enable 2D Video Acceleration</span></label></td>
-	</tr>
 </table>
 </div>
 
@@ -71,7 +67,18 @@
 	<tr id='vboxSettingsDisplayVRDEAddrRow'>
 		<th><span class='translate'>Server Address:</span></th>
 		<td><input type='text' class='vboxText' style='width: 100%' name='vboxSettingsDisplayVRDEAddr' /></td>
-	</tr>	
+	</tr>
+	<tr class='vboxSettingsDisplayRDP' id='vboxSettingsDisplayVRDESecMethodRow'>
+		<th><span class='translate'>Security Method:</span></th>
+		<td style="white-space: nowrap; width: 100%">
+			<select class="vboxselectstdbackground" name='vboxSettingsDisplayVRDESecMethod' id='vboxSettingsDisplayVRDESecMethodID' style='width: 100%'>
+				<option value='negotiate' class='translate'>Negotiate</option>
+				<option value='TLS'>TLS</option>
+				<option value='RDP'>RDP</option>
+			</select>
+		<td style="width: 0px; display: inline-block;"/>
+		</td>
+	</tr>
 	<tr class='vboxRunningEnabled vboxSettingsDisplayRDP'>
 		<th><span class='translate'>Authentication Method:</span></th>
 		<td>
@@ -111,7 +118,7 @@ $('#vboxSettingsDisplayMemory').slider({'min':parseInt($('#vboxPane').data('vbox
 
 
 
-/* CHange values when data is loaded */
+/* Change values when data is loaded */
 $('#vboxSettingsDialog').on('dataLoaded', function(){
 
 
@@ -120,8 +127,7 @@ $('#vboxSettingsDialog').on('dataLoaded', function(){
 	$(document.forms['frmVboxSettings'].vboxSettingsGraphicsController).val($('#vboxSettingsDialog').data('vboxMachineData').graphicsControllerType);
 	
 	document.forms['frmVboxSettings'].vboxSettingsDisplay3d.checked = ($('#vboxSettingsDialog').data('vboxMachineData').accelerate3DEnabled);
-	document.forms['frmVboxSettings'].vboxSettingsDisplay2d.checked = ($('#vboxSettingsDialog').data('vboxMachineData').accelerate2DVideoEnabled);
-	
+
 	var p = $('#vboxSettingsTabDisplayVideo').parent().children('div'); 
 	if(!$('#vboxSettingsDialog').data('vboxFullEdit')) {
 		$(p).find('tr:not(.vboxRunningEnabled)').find('span').addClass('disabled');
@@ -164,6 +170,8 @@ $('#vboxSettingsDialog').on('dataLoaded', function(){
 			$('#vboxSettingsTabDisplayRemote').find('tr.vboxSettingsDisplayVNC').css({'display':'none'});
 		}
 		document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEPort.value = $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.ports;
+		document.forms['frmVboxSettings'].vboxSettingsDisplayVRDESecMethodID.value =
+			($('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.SecurityMethod == '' ? "negotiate" : $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.SecurityMethod);
 		document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAuth.value = $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.authType;
 		document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAuthTimeout.value = $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.authTimeout;
 		document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAddr.value = $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.netAddress;
@@ -192,11 +200,11 @@ $('#vboxSettingsDialog').on('save',function(){
 	$('#vboxSettingsDialog').data('vboxMachineData').graphicsControllerType = $(document.forms['frmVboxSettings'].vboxSettingsGraphicsController).val();
 
 	$('#vboxSettingsDialog').data('vboxMachineData').accelerate3DEnabled = document.forms['frmVboxSettings'].vboxSettingsDisplay3d.checked;
-	$('#vboxSettingsDialog').data('vboxMachineData').accelerate2DVideoEnabled = document.forms['frmVboxSettings'].vboxSettingsDisplay2d.checked;
 
 	if($('#vboxSettingsDialog').data('vboxMachineData').VRDEServer && $('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.VRDEExtPack) {
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.ports = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEPort.value;
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.netAddress = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAddr.value;
+		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.SecurityMethod = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDESecMethodID.value;
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.authType = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAuth.value;
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.authTimeout = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEAuthTimeout.value;
 		$('#vboxSettingsDialog').data('vboxMachineData').VRDEServer.enabled = document.forms['frmVboxSettings'].vboxSettingsDisplayVRDEEnabled.checked;

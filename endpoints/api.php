@@ -57,8 +57,8 @@ try {
 	}
 
 	/* Check for PHP version */
-	if (!version_compare(PHP_VERSION, '5.2.0', '>=')) {
-		throw new Exception('phpVirtualBox requires PHP >= 5.2.0, but this server is running version '. PHP_VERSION .'. Please upgrade PHP.');
+	if (!version_compare(PHP_VERSION, '8.1.0', '>=')) {
+		throw new Exception('phpVirtualBox requires PHP >= 8.1.0, but this server is running version '. PHP_VERSION .'. Please upgrade PHP.');
 	}
 
 	# Only valid function chars

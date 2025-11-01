@@ -40,10 +40,12 @@
 		</table>
 		</td>
 	</tr>
+	<!-- Page Fusion does not work properly in VirtualBox 7.2
 	<tr class='vboxSettingsSystemAdvancedOnly'>
 		<th></th>
 		<td><label><input type='checkbox' class='vboxCheckbox' name='vboxSettingsSystemPageFusion' /> <span class='translate'>Enable Page Fusion</span></label></td>
 	</tr>	
+	-->
 	<tr style='vertical-align: top'>
 		<th style='text-align:right'><span class='translate'>Boot Order:</span></th>
 		<td>
@@ -288,10 +290,11 @@ if(!$('#vboxSettingsDialog').data('vboxHostDetails').cpuFeatures.HWVirtEx) {
  * Enables the page sharing code.
  * @remarks This must match GMMR0Init; currently we only support page fusion on
  *          all 64-bit hosts except Mac OS X */
+/* Page Fusion does not work properly in VirtualBox 7.2
 if(!$('#vboxSettingsDialog').data('vboxHostDetails').cpuFeatures['Long Mode (64-bit)'] || $('#vboxSettingsDialog').data('vboxHostDetails').operatingSystem.toLowerCase().search("darwin") >-1) {
 	$(document.forms['frmVboxSettings'].vboxSettingsSystemPageFusion).prop({'checked':false,'disabled':true}).siblings().addClass('disabled');
 }
-
+*/
 
 /*
  * 
@@ -365,7 +368,8 @@ $('#vboxSettingsDialog').on('dataLoaded',function(){
 		document.forms['frmVboxSettings'].settingsSystemLargePages.checked = ($('#vboxSettingsDialog').data('vboxMachineData').HWVirtExProperties.LargePages);
 		document.forms['frmVboxSettings'].settingsSystemUnrestrictedExecution.checked = ($('#vboxSettingsDialog').data('vboxMachineData').HWVirtExProperties.UnrestrictedExecution);
 		document.forms['frmVboxSettings'].settingsSystemVPID.checked = ($('#vboxSettingsDialog').data('vboxMachineData').HWVirtExProperties.VPID);
-		document.forms['frmVboxSettings'].vboxSettingsSystemPageFusion.checked = ($('#vboxSettingsDialog').data('vboxMachineData').pageFusionEnabled);
+		// Page Fusion does not work properly in VirtualBox 7.2
+		//document.forms['frmVboxSettings'].vboxSettingsSystemPageFusion.checked = ($('#vboxSettingsDialog').data('vboxMachineData').pageFusionEnabled);
 		
 		$('#vboxSettingsTabSystemMotherboard').find('tr.vboxSettingsSystemAdvancedOnly').css('display','');
 		$('#vboxSettingsTabSystemAcceleration').find('tr.vboxSettingsSystemAdvancedOnly').css('display','');
@@ -503,7 +507,8 @@ $('#vboxSettingsDialog').on('save',function(){
 	
 	/* Only if advanced config is enabled */
 	if($('#vboxPane').data('vboxConfig').enableAdvancedConfig) {
-		$('#vboxSettingsDialog').data('vboxMachineData').pageFusionEnabled = document.forms['frmVboxSettings'].vboxSettingsSystemPageFusion.checked;
+		// Page Fusion does not work properly in VirtualBox 7.2
+		//$('#vboxSettingsDialog').data('vboxMachineData').pageFusionEnabled = document.forms['frmVboxSettings'].vboxSettingsSystemPageFusion.checked;
 		$('#vboxSettingsDialog').data('vboxMachineData').HPETEnabled = document.forms['frmVboxSettings'].vboxSettingsSystemHPET.checked;
 		$('#vboxSettingsDialog').data('vboxMachineData').disableHostTimeSync = document.forms['frmVboxSettings'].vboxSettingsSystemDisableHostTimeSync.checked;
 		$('#vboxSettingsDialog').data('vboxMachineData').HWVirtExProperties.LargePages = document.forms['frmVboxSettings'].settingsSystemLargePages.checked;

@@ -500,6 +500,7 @@ class vboxconnector {
 								'enabled' => $vrde->enabled,
 								'ports' => $vrde->getVRDEProperty('TCP/Ports'),
 								'netAddress' => $vrde->getVRDEProperty('TCP/Address'),
+								'SecurityMethod' => $vrde->getVRDEProperty('Security/Method'),
 								'VNCPassword' => $vrde->getVRDEProperty('VNCPassword'),
 								'authType' => (string)$vrde->authType,
 								'authTimeout' => $vrde->authTimeout
@@ -1875,8 +1876,8 @@ class vboxconnector {
 			$m->Platform->X86->setCPUProperty('LongMode', ($guestOS->is64Bit ? 1 : 0));
 		}
 
-		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		$oldFirmware = (string)$m->FirmwareSettings->firmwareType;
+		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		$oldSecureBoot = ($oldFirmware != 'BIOS' && $m->nonVolatileStore->uefiVariableStore != null ? $m->nonVolatileStore->uefiVariableStore->secureBootEnabled : false);
 		*/
 	
@@ -1891,12 +1892,12 @@ class vboxconnector {
 		$m->Platform->X86->setCPUProperty('LongMode', (strpos($args['OSTypeId'],'_64') > - 1 ? 1 : 0));
 		$m->trustedPlatformModule->type = $args['trustedPlatformModule']['type'];
 
-		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		if($oldFirmware == 'BIOS' && $args['firmwareType'] == 'EFI') {
 			$m->nonVolatileStore->initUefiVariableStore(0);
 			$m->nonVolatileStore->uefiVariableStore->enrollOraclePlatformKey();
 			$m->nonVolatileStore->uefiVariableStore->enrollDefaultMsSignatures();
 		}
+		/* secureBootEnabled reported incorrectly by vboxwebsrv
 		if($args['firmwareType'] != 'BIOS' && $oldSecureBoot != (bool)$args['secureBootEnabled']) {
 			$m->nonVolatileStore->uefiVariableStore->secureBootEnabled = (bool)$args['secureBootEnabled'];
 		}
@@ -1937,12 +1938,13 @@ class vboxconnector {
  			* Enables the page sharing code.
 			* @remarks This must match GMMR0Init; currently we only support page fusion on
 			 *          all 64-bit hosts except Mac OS X */
-
+			/* Page Fusion does not work properly in VirtualBox 7.2
+			 * returns "Page fusion is only supported on 64-bit hosts"
 			if($this->vbox->host->getProcessorFeature('LongMode')) {
 
 				$m->pageFusionEnabled = $args['pageFusionEnabled'];
 			}
-
+			*/
 			$m->Platform->X86->HPETEnabled = $args['HPETEnabled'];
 			$m->setExtraData("VBoxInternal/Devices/VMMDev/0/Config/GetHostTimeDisabled", $args['disableHostTimeSync']);
 			$m->keyboardHIDType = $args['keyboardHIDType'];
@@ -1961,7 +1963,6 @@ class vboxconnector {
 		$m->GraphicsAdapter->graphicsControllerType = $args['graphicsControllerType'];
 
 		// Video
-		$m->GraphicsAdapter->setFeature("Acceleration2DVideo", $args['accelerate2DVideoEnabled']);
 		$m->GraphicsAdapter->setFeature("Acceleration3D", $args['accelerate3DEnabled']);
 
 		// VRDE settings
@@ -1971,6 +1972,7 @@ class vboxconnector {
 				$m->VRDEServer->setVRDEProperty('TCP/Ports',$args['VRDEServer']['ports']);
 				if(@$this->settings->enableAdvancedConfig)
 					$m->VRDEServer->setVRDEProperty('TCP/Address',$args['VRDEServer']['netAddress']);
+				$m->VRDEServer->setVRDEProperty('Security/Method',$args['VRDEServer']['SecurityMethod']);
 				$m->VRDEServer->setVRDEProperty('VNCPassword',$args['VRDEServer']['VNCPassword'] ? $args['VRDEServer']['VNCPassword'] : null);
 				$m->VRDEServer->authType = ($args['VRDEServer']['authType'] ? $args['VRDEServer']['authType'] : 'Null');
 				$m->VRDEServer->authTimeout = $args['VRDEServer']['authTimeout'];
@@ -2345,7 +2347,7 @@ class vboxconnector {
 						}
 
 						// Exists in new?
-						if(count($args['USBDeviceFilters'][$i])) {
+						if($args['USBDeviceFilters'] && count($args['USBDeviceFilters'][$i])) {
 
 							// Create filter
 							$f = $m->USBDeviceFilters->createDeviceFilter($args['USBDeviceFilters'][$i]['name']);
@@ -3714,6 +3716,7 @@ class vboxconnector {
 					'enabled' => $vrde->enabled,
 					'ports' => $vrde->getVRDEProperty('TCP/Ports'),
 					'netAddress' => $vrde->getVRDEProperty('TCP/Address'),
+					'SecurityMethod' => $vrde->getVRDEProperty('Security/Method'),
 					'VNCPassword' => $vrde->getVRDEProperty('VNCPassword'),
 					'authType' => (string)$vrde->authType,
 					'authTimeout' => $vrde->authTimeout,
@@ -3860,6 +3863,9 @@ class vboxconnector {
 
 		// Save and register
 		$m->saveSettings();
+		if((string)$m->FirmwareSettings->firmwareType == 'EFI') {
+			$m->nonVolatileStore->initUefiVariableStore(0);
+		}
 		$this->vbox->registerMachine($m->handle);
 		$vm = $m->id;
 		$m->releaseRemote();
@@ -4278,7 +4284,6 @@ class vboxconnector {
 			'graphicsControllerType' => (string)$m->GraphicsAdapter->graphicsControllerType,
 			'pointingHIDType' => (string)$m->pointingHIDType,
 			'keyboardHIDType' => (string)$m->keyboardHIDType,
-			'accelerate2DVideoEnabled' => $m->GraphicsAdapter->isFeatureEnabled("Acceleration2DVideo"),
 			'accelerate3DEnabled' => $m->GraphicsAdapter->isFeatureEnabled("Acceleration3D"),
 			'BIOSSettings' => array(
 				'ACPIEnabled' => $m->FirmwareSettings->ACPIEnabled,
@@ -4293,11 +4298,13 @@ class vboxconnector {
 			'snapshotFolder' => $m->snapshotFolder,
 			'ClipboardMode' => (string)$m->ClipboardMode,
 			'monitorCount' => $m->GraphicsAdapter->monitorCount,
-			'pageFusionEnabled' => $m->pageFusionEnabled,
+			// Page Fusion does not work properly in 7.2
+			//'pageFusionEnabled' => $m->pageFusionEnabled,
 			'VRDEServer' => (!$m->VRDEServer ? null : array(
 				'enabled' => $m->VRDEServer->enabled,
 				'ports' => $m->VRDEServer->getVRDEProperty('TCP/Ports'),
 				'netAddress' => $m->VRDEServer->getVRDEProperty('TCP/Address'),
+				'SecurityMethod' => $m->VRDEServer->getVRDEProperty('Security/Method'),
 				'VNCPassword' => $m->VRDEServer->getVRDEProperty('VNCPassword'),
 				'authType' => (string)$m->VRDEServer->authType,
 				'authTimeout' => $m->VRDEServer->authTimeout,
