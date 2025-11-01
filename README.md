@@ -1,37 +1,34 @@
 # About
 
-April 2025
-
-Project adopted by Anonie Muss. Updated from https://github.com/studnitskiy/phpvirtualbox where
-it had been modified to work with VirtualBox 7.1. Thanks to studnitskiy for his work, and now that
-he is a member of the github project, I hope he will continue to contribute.
+Web interface for Oracle VirtualBox (https://www.virtualbox.org/)
 
 ## Roadmap
 
-- [ ] ~~Use Guacamole instead of Flash RDP client~~ Not possible without some gateway server
-- [ ] Ensure feature parity with VirtualBox 7.1 minus Oracle Cloud features
+- [ ] Ensure feature parity with VirtualBox 7.2 minus Oracle Cloud features
 - [x] PHP 8.4 compatibility
 - [x] jQuery and jQuery UI updates
 - [ ] Create a release process where javascript and CSS are minified and releses do not contain unnecessary build artifacts
-- [ ] UI parity with VirtualBox 7.1 minus Oracle Cloud features
 
-## History
+## Project history and credits
+
+October 2025
+
+VirtualBox 7.2 support and various bugfixes.
+
+April 2025
+
+Project adopted by Anonie Muss. Updated from https://github.com/studnitskiy/phpvirtualbox.
 
 October 2024
 
 VirtualBox 7.1 support for x86 hosts only, no ARM hosts support.
-I've basically made it stop complaining and allow my existing environment to work.
-Minimally tested with PHP 8.2 (PHP-FPM + nginx).
 
-Original text follows
 
-This repository is a continuation of phpVirtualBox, which is no longer supported by the official authors (last commit on thier repository was sent on Jan 27, 2021 - written on Jan 18, 2023).
+2022 updated by *[Bartek Sz.](https://github.com/BartekSz95)* and various contributors.
 
-Right now (from 2022), this software is updated by *[Bartek Sz.](https://github.com/BartekSz95)* and various contributors (see https://github.com/BartekSz95/phpvirtualbox/graphs/contributors).
+2017-2021 maintained by Smart Guide Pty Ltd (tudor at smartguide dot com dot au) with support from various contributors.
 
-phpVirtualBox was from 2017 to 2021 maintained by Smart Guide Pty Ltd (tudor at smartguide dot com dot au) with support from various contributors.
-
-Originally Copyright © 2010-2015 by Ian Moore (imoore76 at yahoo dot com).
+2010-2015 created and maintained by Ian Moore (imoore76 at yahoo dot com).
 
 FREE, WITHOUT WARRANTY:
 
@@ -49,11 +46,11 @@ possession.
 
 - Webserver (eg. Apache HTTPD, nginx)
 
-- VirtualBox 7.1.x
+- VirtualBox 7.2.x
 
 # Installation from ZIP file
 
-1) Download ZIP file from GitHub project site: https://github.com/phpvirtualbox/phpvirtualbox/archive/master.zip.
+1) Download ZIP file from the project site on GitHub - use Code > Download ZIP.
 2) Unzip the ZIP file into a folder accessible by your web server.
 3) Rename config.php-example to config.php and edit as needed.
 

@@ -1,5 +1,30 @@
 -------------------------------------
-	7.1-2
+	7.2-2	2025-11-01
+-------------------------------------
+Disable Page Fusion feature
+https://github.com/phpvirtualbox/phpvirtualbox/issues/363
+
+Add VRDP Security Method selection to the Remote Display settings
+https://github.com/phpvirtualbox/phpvirtualbox/issues/366
+
+Remove the Console tab with the old Flash and Java RDP and VNC clients
+https://github.com/phpvirtualbox/phpvirtualbox/issues/367
+
+Fix NVRAM related issues
+https://github.com/phpvirtualbox/phpvirtualbox/issues/364
+https://github.com/phpvirtualbox/phpvirtualbox/issues/369
+
+Fix USB Device Filters related issues
+https://github.com/phpvirtualbox/phpvirtualbox/issues/371
+
+-------------------------------------
+	7.2-1	2025-09-01
+-------------------------------------
+Add Virtualbox 7.2 support
+https://github.com/phpvirtualbox/phpvirtualbox/issues/360
+
+-------------------------------------
+	7.1-2	2025-04-29
 -------------------------------------
 Fixed https://github.com/phpvirtualbox/phpvirtualbox/issues/350
 Clonig VMs causes an error - Vm clonig is unuseable in phpvirtualbox
