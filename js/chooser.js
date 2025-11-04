@@ -314,10 +314,21 @@ var vboxChooser = {
 
         var groups = [];
 		// Each item in list
-		for(var i = 0; i < vmlist.length; i++) {	
-			// Update
-			vboxChooser.updateVMElement(vmlist[i], true);
-			groups = groups.concat(vmlist[i].groups);
+		for (var i = 0; i < vmlist.length; i++) {
+			var vm = vmlist[i];
+			// Check if this VM already exists in the DOM
+			var existingVM = $('#vboxChooserPane').find("[data-machine-id='" + vm.id + "']");
+
+			if (existingVM.length > 0) {
+			    // VM already exists — update its element
+			    vboxChooser.updateVMElement(vm, false);
+			} else {
+			    // New VM — add it to the DOM
+			    vboxChooser.updateVMElement(vm, true);
+			}
+
+			// Add VM groups to the array for later sorting
+			groups = groups.concat(vm.groups);
 		}
 		
 		// Sort groups
